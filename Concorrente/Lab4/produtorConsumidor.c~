@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <semaphore.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+#define N 10
+
+sem_t semaforoVazio;
+sem_t semaforoCheio;
+sem_t lock_prod;
+sem_t lock_cons;
+int f = 0;
+int i = 0;
+char buffer[10];
+
+int produz()	{
+	return f;
+}
+
+void consome()	{
+	printf("Consumidor: %i \n", buffer[i]);
+}
+
+void *threadProdutora(void *arg)	{
+// Produtor
+	while(1)	{
+		sem_wait(&semaforoVazio);
+		sem_wait(&lock_prod);
+		f = (f + 1) % N;
+		buffer[f] = produz();
+		printf("Produtor: %i \n", buffer[f]);
+		sem_post(&lock_prod);
+		sem_post(&semaforoCheio);
+	}
+}
+
+void *threadConsumidora(void *arg)	{
+	//Consumidor
+	while(1)	{
+		sem_wait(&semaforoCheio);
+		sem_wait(&lock_cons);
+		i = (i + 1) % N;
+		consome(buffer[i]);
+		sem_post(&lock_cons);
+		sem_post(&semaforoVazio);
+	}
+}
+
+int main(int argc, char *argv[])
+{
+	if (argc != 2)	{
+		printf("Insira o número de threads que deseja criar após a chamada do programa.");
+		return 1;
+	}
+	int MAX_THREADS = atoi(argv[1]);
+
+	pthread_t threadproduz[MAX_THREADS];
+	pthread_t threadconsome[MAX_THREADS];
+
+	sem_init(&semaforoVazio, 0, N);
+	sem_init(&semaforoCheio, 0, 0);
+	sem_init(&lock_prod, 0, 1);
+	sem_init(&lock_cons, 0, 1);
+	
+	for(int i = 0; i < MAX_THREADS; i++)	{
+		pthread_create(&threadproduz[i], NULL, threadProdutora, (void *)0);
+		pthread_create(&threadconsome[i], NULL, threadConsumidora, (void *)0);
+	}
+	for(int l = 0; l < MAX_THREADS; l++)	{
+	pthread_join(threadproduz[l],NULL);
+	}
+	for(int l = 0; l < MAX_THREADS; l++)	{
+	pthread_join(threadconsome[l],NULL);
+	}
+
+	pthread_exit(NULL);
+	sem_destroy(&lock_cons);
+	sem_destroy(&lock_prod);
+	sem_destroy(&semaforoVazio);
+	sem_destroy(&semaforoCheio);
+	return 0;
+}
+
