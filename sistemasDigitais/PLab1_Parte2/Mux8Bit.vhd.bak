@@ -1,0 +1,23 @@
+library ieee;
+use ue ieee.std_logic_1164.all;
+
+entity eight_bit_Wide_2x1 is
+	port (SW : in std_logic_vector(17 downto 0);
+			M : out std_logic_vector (7 downto 0);
+			LEDR : out std_logic_vector (17 downto 0);
+			LEDG : out std_logic_vector(7 downto 0)
+		 );
+end entity;
+
+architecture arq of eight_bit_Wide_2x1 is
+
+signal signalOut :std_logic_vector(7 downto 0);
+	signal S : SW(17);
+	signal X : SW(7 downto 0);
+	signal Y : SW(15 downto 8);
+begin
+
+
+
+
+end architecture;

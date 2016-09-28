@@ -1,0 +1,100 @@
+|Mux8Bit
+SW[0] => multiplexador_2x1:L0.X
+SW[1] => multiplexador_2x1:L1.X
+SW[2] => multiplexador_2x1:L2.X
+SW[3] => multiplexador_2x1:L3.X
+SW[4] => multiplexador_2x1:L4.X
+SW[5] => multiplexador_2x1:L5.X
+SW[6] => multiplexador_2x1:L6.X
+SW[7] => multiplexador_2x1:L7.X
+SW[8] => multiplexador_2x1:L0.Y
+SW[9] => multiplexador_2x1:L1.Y
+SW[10] => multiplexador_2x1:L2.Y
+SW[11] => multiplexador_2x1:L3.Y
+SW[12] => multiplexador_2x1:L4.Y
+SW[13] => multiplexador_2x1:L5.Y
+SW[14] => multiplexador_2x1:L6.Y
+SW[15] => multiplexador_2x1:L7.Y
+SW[16] => ~NO_FANOUT~
+SW[17] => multiplexador_2x1:L0.S
+SW[17] => multiplexador_2x1:L1.S
+SW[17] => multiplexador_2x1:L2.S
+SW[17] => multiplexador_2x1:L3.S
+SW[17] => multiplexador_2x1:L4.S
+SW[17] => multiplexador_2x1:L5.S
+SW[17] => multiplexador_2x1:L6.S
+SW[17] => multiplexador_2x1:L7.S
+LEDR[0] <= multiplexador_2x1:L0.M
+LEDR[1] <= multiplexador_2x1:L1.M
+LEDR[2] <= multiplexador_2x1:L2.M
+LEDR[3] <= multiplexador_2x1:L3.M
+LEDR[4] <= multiplexador_2x1:L4.M
+LEDR[5] <= multiplexador_2x1:L5.M
+LEDR[6] <= multiplexador_2x1:L6.M
+LEDR[7] <= multiplexador_2x1:L7.M
+
+
+|Mux8Bit|multiplexador_2x1:L0
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Mux8Bit|multiplexador_2x1:L1
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Mux8Bit|multiplexador_2x1:L2
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Mux8Bit|multiplexador_2x1:L3
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Mux8Bit|multiplexador_2x1:L4
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Mux8Bit|multiplexador_2x1:L5
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Mux8Bit|multiplexador_2x1:L6
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|Mux8Bit|multiplexador_2x1:L7
+S => M.IN0
+S => M.IN0
+X => M.IN1
+Y => M.IN1
+M <= M.DB_MAX_OUTPUT_PORT_TYPE
+
+

@@ -1,0 +1,17 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+-- multiplexador 2 x 1
+
+entity multiplexador_2x1 is
+	port (  S : in std_logic;
+			X : in std_logic;
+			Y : in std_logic;
+			M : out std_logic
+		 ); 
+	end multiplexador_2x1;
+	
+architecture multiplex_2x1 of multiplexador_2x1 is
+begin
+	M <= (NOT (S) AND X) OR (S AND Y);
+end multiplex_2x1;

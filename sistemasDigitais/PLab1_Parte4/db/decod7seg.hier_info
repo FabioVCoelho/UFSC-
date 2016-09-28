@@ -1,0 +1,22 @@
+|decod7seg
+C[0] => Equal0.IN2
+C[0] => Equal1.IN1
+C[0] => Equal2.IN2
+C[0] => Equal3.IN2
+C[1] => Equal0.IN1
+C[1] => Equal1.IN2
+C[1] => Equal2.IN1
+C[1] => Equal3.IN1
+C[2] => Equal0.IN0
+C[2] => Equal1.IN0
+C[2] => Equal2.IN0
+C[2] => Equal3.IN0
+F[0] <= F[0]$latch.DB_MAX_OUTPUT_PORT_TYPE
+F[1] <= F[1]$latch.DB_MAX_OUTPUT_PORT_TYPE
+F[2] <= F[2]$latch.DB_MAX_OUTPUT_PORT_TYPE
+F[3] <= F[3]$latch.DB_MAX_OUTPUT_PORT_TYPE
+F[4] <= <GND>
+F[5] <= <GND>
+F[6] <= F[6]$latch.DB_MAX_OUTPUT_PORT_TYPE
+
+

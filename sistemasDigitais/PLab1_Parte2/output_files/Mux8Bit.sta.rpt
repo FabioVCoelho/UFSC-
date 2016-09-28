@@ -1,0 +1,456 @@
+TimeQuest Timing Analyzer report for Mux8Bit
+Thu Apr 28 07:25:55 2016
+Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. TimeQuest Timing Analyzer Summary
+  3. Parallel Compilation
+  4. Clocks
+  5. Slow Model Fmax Summary
+  6. Slow Model Setup Summary
+  7. Slow Model Hold Summary
+  8. Slow Model Recovery Summary
+  9. Slow Model Removal Summary
+ 10. Slow Model Minimum Pulse Width Summary
+ 11. Propagation Delay
+ 12. Minimum Propagation Delay
+ 13. Fast Model Setup Summary
+ 14. Fast Model Hold Summary
+ 15. Fast Model Recovery Summary
+ 16. Fast Model Removal Summary
+ 17. Fast Model Minimum Pulse Width Summary
+ 18. Propagation Delay
+ 19. Minimum Propagation Delay
+ 20. Multicorner Timing Analysis Summary
+ 21. Progagation Delay
+ 22. Minimum Progagation Delay
+ 23. Clock Transfers
+ 24. Report TCCS
+ 25. Report RSKM
+ 26. Unconstrained Paths
+ 27. TimeQuest Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------------+
+; TimeQuest Timing Analyzer Summary                                                      ;
++--------------------+-------------------------------------------------------------------+
+; Quartus II Version ; Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition ;
+; Revision Name      ; Mux8Bit                                                           ;
+; Device Family      ; Cyclone II                                                        ;
+; Device Name        ; EP2C35F672C6                                                      ;
+; Timing Models      ; Final                                                             ;
+; Delay Model        ; Combined                                                          ;
+; Rise/Fall Delays   ; Unavailable                                                       ;
++--------------------+-------------------------------------------------------------------+
+
+
+Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
++-------------------------------------+
+; Parallel Compilation                ;
++----------------------------+--------+
+; Processors                 ; Number ;
++----------------------------+--------+
+; Number detected on machine ; 4      ;
+; Maximum allowed            ; 1      ;
++----------------------------+--------+
+
+
+----------
+; Clocks ;
+----------
+No clocks to report.
+
+
+---------------------------
+; Slow Model Fmax Summary ;
+---------------------------
+No paths to report.
+
+
+----------------------------
+; Slow Model Setup Summary ;
+----------------------------
+No paths to report.
+
+
+---------------------------
+; Slow Model Hold Summary ;
+---------------------------
+No paths to report.
+
+
+-------------------------------
+; Slow Model Recovery Summary ;
+-------------------------------
+No paths to report.
+
+
+------------------------------
+; Slow Model Removal Summary ;
+------------------------------
+No paths to report.
+
+
+------------------------------------------
+; Slow Model Minimum Pulse Width Summary ;
+------------------------------------------
+No paths to report.
+
+
++--------------------------------------------------------------+
+; Propagation Delay                                            ;
++------------+-------------+--------+--------+--------+--------+
+; Input Port ; Output Port ; RR     ; RF     ; FR     ; FF     ;
++------------+-------------+--------+--------+--------+--------+
+; SW[0]      ; LEDR[0]     ; 8.145  ;        ;        ; 8.145  ;
+; SW[1]      ; LEDR[1]     ; 8.161  ;        ;        ; 8.161  ;
+; SW[2]      ; LEDR[2]     ; 8.512  ;        ;        ; 8.512  ;
+; SW[3]      ; LEDR[3]     ; 7.459  ;        ;        ; 7.459  ;
+; SW[4]      ; LEDR[4]     ; 6.969  ;        ;        ; 6.969  ;
+; SW[5]      ; LEDR[5]     ; 7.072  ;        ;        ; 7.072  ;
+; SW[6]      ; LEDR[6]     ; 7.267  ;        ;        ; 7.267  ;
+; SW[7]      ; LEDR[7]     ; 8.559  ;        ;        ; 8.559  ;
+; SW[8]      ; LEDR[0]     ; 7.914  ;        ;        ; 7.914  ;
+; SW[9]      ; LEDR[1]     ; 8.041  ;        ;        ; 8.041  ;
+; SW[10]     ; LEDR[2]     ; 8.584  ;        ;        ; 8.584  ;
+; SW[11]     ; LEDR[3]     ; 8.433  ;        ;        ; 8.433  ;
+; SW[12]     ; LEDR[4]     ; 8.216  ;        ;        ; 8.216  ;
+; SW[13]     ; LEDR[5]     ; 12.232 ;        ;        ; 12.232 ;
+; SW[14]     ; LEDR[6]     ; 12.388 ;        ;        ; 12.388 ;
+; SW[15]     ; LEDR[7]     ; 12.789 ;        ;        ; 12.789 ;
+; SW[17]     ; LEDR[0]     ; 11.953 ; 11.953 ; 11.953 ; 11.953 ;
+; SW[17]     ; LEDR[1]     ; 11.728 ; 11.728 ; 11.728 ; 11.728 ;
+; SW[17]     ; LEDR[2]     ; 12.601 ; 12.601 ; 12.601 ; 12.601 ;
+; SW[17]     ; LEDR[3]     ; 12.530 ; 12.530 ; 12.530 ; 12.530 ;
+; SW[17]     ; LEDR[4]     ; 12.310 ; 12.310 ; 12.310 ; 12.310 ;
+; SW[17]     ; LEDR[5]     ; 12.158 ; 12.158 ; 12.158 ; 12.158 ;
+; SW[17]     ; LEDR[6]     ; 12.600 ; 12.600 ; 12.600 ; 12.600 ;
+; SW[17]     ; LEDR[7]     ; 12.605 ; 12.605 ; 12.605 ; 12.605 ;
++------------+-------------+--------+--------+--------+--------+
+
+
++--------------------------------------------------------------+
+; Minimum Propagation Delay                                    ;
++------------+-------------+--------+--------+--------+--------+
+; Input Port ; Output Port ; RR     ; RF     ; FR     ; FF     ;
++------------+-------------+--------+--------+--------+--------+
+; SW[0]      ; LEDR[0]     ; 8.145  ;        ;        ; 8.145  ;
+; SW[1]      ; LEDR[1]     ; 8.161  ;        ;        ; 8.161  ;
+; SW[2]      ; LEDR[2]     ; 8.512  ;        ;        ; 8.512  ;
+; SW[3]      ; LEDR[3]     ; 7.459  ;        ;        ; 7.459  ;
+; SW[4]      ; LEDR[4]     ; 6.969  ;        ;        ; 6.969  ;
+; SW[5]      ; LEDR[5]     ; 7.072  ;        ;        ; 7.072  ;
+; SW[6]      ; LEDR[6]     ; 7.267  ;        ;        ; 7.267  ;
+; SW[7]      ; LEDR[7]     ; 8.559  ;        ;        ; 8.559  ;
+; SW[8]      ; LEDR[0]     ; 7.914  ;        ;        ; 7.914  ;
+; SW[9]      ; LEDR[1]     ; 8.041  ;        ;        ; 8.041  ;
+; SW[10]     ; LEDR[2]     ; 8.584  ;        ;        ; 8.584  ;
+; SW[11]     ; LEDR[3]     ; 8.433  ;        ;        ; 8.433  ;
+; SW[12]     ; LEDR[4]     ; 8.216  ;        ;        ; 8.216  ;
+; SW[13]     ; LEDR[5]     ; 12.232 ;        ;        ; 12.232 ;
+; SW[14]     ; LEDR[6]     ; 12.388 ;        ;        ; 12.388 ;
+; SW[15]     ; LEDR[7]     ; 12.789 ;        ;        ; 12.789 ;
+; SW[17]     ; LEDR[0]     ; 11.953 ; 11.953 ; 11.953 ; 11.953 ;
+; SW[17]     ; LEDR[1]     ; 11.728 ; 11.728 ; 11.728 ; 11.728 ;
+; SW[17]     ; LEDR[2]     ; 12.601 ; 12.601 ; 12.601 ; 12.601 ;
+; SW[17]     ; LEDR[3]     ; 12.530 ; 12.530 ; 12.530 ; 12.530 ;
+; SW[17]     ; LEDR[4]     ; 12.310 ; 12.310 ; 12.310 ; 12.310 ;
+; SW[17]     ; LEDR[5]     ; 12.158 ; 12.158 ; 12.158 ; 12.158 ;
+; SW[17]     ; LEDR[6]     ; 12.600 ; 12.600 ; 12.600 ; 12.600 ;
+; SW[17]     ; LEDR[7]     ; 12.605 ; 12.605 ; 12.605 ; 12.605 ;
++------------+-------------+--------+--------+--------+--------+
+
+
+----------------------------
+; Fast Model Setup Summary ;
+----------------------------
+No paths to report.
+
+
+---------------------------
+; Fast Model Hold Summary ;
+---------------------------
+No paths to report.
+
+
+-------------------------------
+; Fast Model Recovery Summary ;
+-------------------------------
+No paths to report.
+
+
+------------------------------
+; Fast Model Removal Summary ;
+------------------------------
+No paths to report.
+
+
+------------------------------------------
+; Fast Model Minimum Pulse Width Summary ;
+------------------------------------------
+No paths to report.
+
+
++----------------------------------------------------------+
+; Propagation Delay                                        ;
++------------+-------------+-------+-------+-------+-------+
+; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
++------------+-------------+-------+-------+-------+-------+
+; SW[0]      ; LEDR[0]     ; 4.297 ;       ;       ; 4.297 ;
+; SW[1]      ; LEDR[1]     ; 4.277 ;       ;       ; 4.277 ;
+; SW[2]      ; LEDR[2]     ; 4.373 ;       ;       ; 4.373 ;
+; SW[3]      ; LEDR[3]     ; 3.822 ;       ;       ; 3.822 ;
+; SW[4]      ; LEDR[4]     ; 3.619 ;       ;       ; 3.619 ;
+; SW[5]      ; LEDR[5]     ; 3.675 ;       ;       ; 3.675 ;
+; SW[6]      ; LEDR[6]     ; 3.740 ;       ;       ; 3.740 ;
+; SW[7]      ; LEDR[7]     ; 4.460 ;       ;       ; 4.460 ;
+; SW[8]      ; LEDR[0]     ; 4.220 ;       ;       ; 4.220 ;
+; SW[9]      ; LEDR[1]     ; 4.327 ;       ;       ; 4.327 ;
+; SW[10]     ; LEDR[2]     ; 4.392 ;       ;       ; 4.392 ;
+; SW[11]     ; LEDR[3]     ; 4.324 ;       ;       ; 4.324 ;
+; SW[12]     ; LEDR[4]     ; 4.248 ;       ;       ; 4.248 ;
+; SW[13]     ; LEDR[5]     ; 6.756 ;       ;       ; 6.756 ;
+; SW[14]     ; LEDR[6]     ; 6.727 ;       ;       ; 6.727 ;
+; SW[15]     ; LEDR[7]     ; 6.953 ;       ;       ; 6.953 ;
+; SW[17]     ; LEDR[0]     ; 6.610 ; 6.610 ; 6.610 ; 6.610 ;
+; SW[17]     ; LEDR[1]     ; 6.500 ; 6.500 ; 6.500 ; 6.500 ;
+; SW[17]     ; LEDR[2]     ; 6.825 ; 6.825 ; 6.825 ; 6.825 ;
+; SW[17]     ; LEDR[3]     ; 6.811 ; 6.811 ; 6.811 ; 6.811 ;
+; SW[17]     ; LEDR[4]     ; 6.725 ; 6.725 ; 6.725 ; 6.725 ;
+; SW[17]     ; LEDR[5]     ; 6.678 ; 6.678 ; 6.678 ; 6.678 ;
+; SW[17]     ; LEDR[6]     ; 6.830 ; 6.830 ; 6.830 ; 6.830 ;
+; SW[17]     ; LEDR[7]     ; 6.832 ; 6.832 ; 6.832 ; 6.832 ;
++------------+-------------+-------+-------+-------+-------+
+
+
++----------------------------------------------------------+
+; Minimum Propagation Delay                                ;
++------------+-------------+-------+-------+-------+-------+
+; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
++------------+-------------+-------+-------+-------+-------+
+; SW[0]      ; LEDR[0]     ; 4.297 ;       ;       ; 4.297 ;
+; SW[1]      ; LEDR[1]     ; 4.277 ;       ;       ; 4.277 ;
+; SW[2]      ; LEDR[2]     ; 4.373 ;       ;       ; 4.373 ;
+; SW[3]      ; LEDR[3]     ; 3.822 ;       ;       ; 3.822 ;
+; SW[4]      ; LEDR[4]     ; 3.619 ;       ;       ; 3.619 ;
+; SW[5]      ; LEDR[5]     ; 3.675 ;       ;       ; 3.675 ;
+; SW[6]      ; LEDR[6]     ; 3.740 ;       ;       ; 3.740 ;
+; SW[7]      ; LEDR[7]     ; 4.460 ;       ;       ; 4.460 ;
+; SW[8]      ; LEDR[0]     ; 4.220 ;       ;       ; 4.220 ;
+; SW[9]      ; LEDR[1]     ; 4.327 ;       ;       ; 4.327 ;
+; SW[10]     ; LEDR[2]     ; 4.392 ;       ;       ; 4.392 ;
+; SW[11]     ; LEDR[3]     ; 4.324 ;       ;       ; 4.324 ;
+; SW[12]     ; LEDR[4]     ; 4.248 ;       ;       ; 4.248 ;
+; SW[13]     ; LEDR[5]     ; 6.756 ;       ;       ; 6.756 ;
+; SW[14]     ; LEDR[6]     ; 6.727 ;       ;       ; 6.727 ;
+; SW[15]     ; LEDR[7]     ; 6.953 ;       ;       ; 6.953 ;
+; SW[17]     ; LEDR[0]     ; 6.610 ; 6.610 ; 6.610 ; 6.610 ;
+; SW[17]     ; LEDR[1]     ; 6.500 ; 6.500 ; 6.500 ; 6.500 ;
+; SW[17]     ; LEDR[2]     ; 6.825 ; 6.825 ; 6.825 ; 6.825 ;
+; SW[17]     ; LEDR[3]     ; 6.811 ; 6.811 ; 6.811 ; 6.811 ;
+; SW[17]     ; LEDR[4]     ; 6.725 ; 6.725 ; 6.725 ; 6.725 ;
+; SW[17]     ; LEDR[5]     ; 6.678 ; 6.678 ; 6.678 ; 6.678 ;
+; SW[17]     ; LEDR[6]     ; 6.830 ; 6.830 ; 6.830 ; 6.830 ;
+; SW[17]     ; LEDR[7]     ; 6.832 ; 6.832 ; 6.832 ; 6.832 ;
++------------+-------------+-------+-------+-------+-------+
+
+
++----------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                        ;
++------------------+-------+------+----------+---------+---------------------+
+; Clock            ; Setup ; Hold ; Recovery ; Removal ; Minimum Pulse Width ;
++------------------+-------+------+----------+---------+---------------------+
+; Worst-case Slack ; N/A   ; N/A  ; N/A      ; N/A     ; N/A                 ;
+; Design-wide TNS  ; 0.0   ; 0.0  ; 0.0      ; 0.0     ; 0.0                 ;
++------------------+-------+------+----------+---------+---------------------+
+
+
++--------------------------------------------------------------+
+; Progagation Delay                                            ;
++------------+-------------+--------+--------+--------+--------+
+; Input Port ; Output Port ; RR     ; RF     ; FR     ; FF     ;
++------------+-------------+--------+--------+--------+--------+
+; SW[0]      ; LEDR[0]     ; 8.145  ;        ;        ; 8.145  ;
+; SW[1]      ; LEDR[1]     ; 8.161  ;        ;        ; 8.161  ;
+; SW[2]      ; LEDR[2]     ; 8.512  ;        ;        ; 8.512  ;
+; SW[3]      ; LEDR[3]     ; 7.459  ;        ;        ; 7.459  ;
+; SW[4]      ; LEDR[4]     ; 6.969  ;        ;        ; 6.969  ;
+; SW[5]      ; LEDR[5]     ; 7.072  ;        ;        ; 7.072  ;
+; SW[6]      ; LEDR[6]     ; 7.267  ;        ;        ; 7.267  ;
+; SW[7]      ; LEDR[7]     ; 8.559  ;        ;        ; 8.559  ;
+; SW[8]      ; LEDR[0]     ; 7.914  ;        ;        ; 7.914  ;
+; SW[9]      ; LEDR[1]     ; 8.041  ;        ;        ; 8.041  ;
+; SW[10]     ; LEDR[2]     ; 8.584  ;        ;        ; 8.584  ;
+; SW[11]     ; LEDR[3]     ; 8.433  ;        ;        ; 8.433  ;
+; SW[12]     ; LEDR[4]     ; 8.216  ;        ;        ; 8.216  ;
+; SW[13]     ; LEDR[5]     ; 12.232 ;        ;        ; 12.232 ;
+; SW[14]     ; LEDR[6]     ; 12.388 ;        ;        ; 12.388 ;
+; SW[15]     ; LEDR[7]     ; 12.789 ;        ;        ; 12.789 ;
+; SW[17]     ; LEDR[0]     ; 11.953 ; 11.953 ; 11.953 ; 11.953 ;
+; SW[17]     ; LEDR[1]     ; 11.728 ; 11.728 ; 11.728 ; 11.728 ;
+; SW[17]     ; LEDR[2]     ; 12.601 ; 12.601 ; 12.601 ; 12.601 ;
+; SW[17]     ; LEDR[3]     ; 12.530 ; 12.530 ; 12.530 ; 12.530 ;
+; SW[17]     ; LEDR[4]     ; 12.310 ; 12.310 ; 12.310 ; 12.310 ;
+; SW[17]     ; LEDR[5]     ; 12.158 ; 12.158 ; 12.158 ; 12.158 ;
+; SW[17]     ; LEDR[6]     ; 12.600 ; 12.600 ; 12.600 ; 12.600 ;
+; SW[17]     ; LEDR[7]     ; 12.605 ; 12.605 ; 12.605 ; 12.605 ;
++------------+-------------+--------+--------+--------+--------+
+
+
++----------------------------------------------------------+
+; Minimum Progagation Delay                                ;
++------------+-------------+-------+-------+-------+-------+
+; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
++------------+-------------+-------+-------+-------+-------+
+; SW[0]      ; LEDR[0]     ; 4.297 ;       ;       ; 4.297 ;
+; SW[1]      ; LEDR[1]     ; 4.277 ;       ;       ; 4.277 ;
+; SW[2]      ; LEDR[2]     ; 4.373 ;       ;       ; 4.373 ;
+; SW[3]      ; LEDR[3]     ; 3.822 ;       ;       ; 3.822 ;
+; SW[4]      ; LEDR[4]     ; 3.619 ;       ;       ; 3.619 ;
+; SW[5]      ; LEDR[5]     ; 3.675 ;       ;       ; 3.675 ;
+; SW[6]      ; LEDR[6]     ; 3.740 ;       ;       ; 3.740 ;
+; SW[7]      ; LEDR[7]     ; 4.460 ;       ;       ; 4.460 ;
+; SW[8]      ; LEDR[0]     ; 4.220 ;       ;       ; 4.220 ;
+; SW[9]      ; LEDR[1]     ; 4.327 ;       ;       ; 4.327 ;
+; SW[10]     ; LEDR[2]     ; 4.392 ;       ;       ; 4.392 ;
+; SW[11]     ; LEDR[3]     ; 4.324 ;       ;       ; 4.324 ;
+; SW[12]     ; LEDR[4]     ; 4.248 ;       ;       ; 4.248 ;
+; SW[13]     ; LEDR[5]     ; 6.756 ;       ;       ; 6.756 ;
+; SW[14]     ; LEDR[6]     ; 6.727 ;       ;       ; 6.727 ;
+; SW[15]     ; LEDR[7]     ; 6.953 ;       ;       ; 6.953 ;
+; SW[17]     ; LEDR[0]     ; 6.610 ; 6.610 ; 6.610 ; 6.610 ;
+; SW[17]     ; LEDR[1]     ; 6.500 ; 6.500 ; 6.500 ; 6.500 ;
+; SW[17]     ; LEDR[2]     ; 6.825 ; 6.825 ; 6.825 ; 6.825 ;
+; SW[17]     ; LEDR[3]     ; 6.811 ; 6.811 ; 6.811 ; 6.811 ;
+; SW[17]     ; LEDR[4]     ; 6.725 ; 6.725 ; 6.725 ; 6.725 ;
+; SW[17]     ; LEDR[5]     ; 6.678 ; 6.678 ; 6.678 ; 6.678 ;
+; SW[17]     ; LEDR[6]     ; 6.830 ; 6.830 ; 6.830 ; 6.830 ;
+; SW[17]     ; LEDR[7]     ; 6.832 ; 6.832 ; 6.832 ; 6.832 ;
++------------+-------------+-------+-------+-------+-------+
+
+
+-------------------
+; Clock Transfers ;
+-------------------
+Nothing to report.
+
+
+---------------
+; Report TCCS ;
+---------------
+No dedicated SERDES Transmitter circuitry present in device or used in design
+
+
+---------------
+; Report RSKM ;
+---------------
+No dedicated SERDES Receiver circuitry present in device or used in design
+
+
++------------------------------------------------+
+; Unconstrained Paths                            ;
++---------------------------------+-------+------+
+; Property                        ; Setup ; Hold ;
++---------------------------------+-------+------+
+; Illegal Clocks                  ; 0     ; 0    ;
+; Unconstrained Clocks            ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 17    ; 17   ;
+; Unconstrained Input Port Paths  ; 24    ; 24   ;
+; Unconstrained Output Ports      ; 8     ; 8    ;
+; Unconstrained Output Port Paths ; 24    ; 24   ;
++---------------------------------+-------+------+
+
+
++------------------------------------+
+; TimeQuest Timing Analyzer Messages ;
++------------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
+    Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+    Info: Processing started: Thu Apr 28 07:25:54 2016
+Info: Command: quartus_sta Mux8Bit -c Mux8Bit
+Info: qsta_default_script.tcl version: #1
+Warning (20013): Ignored assignments for entity "ghrd_top" -- entity does not exist in design
+    Warning (20014): Assignment for entity set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_PRESERVE_HIGH_SPEED_TILES ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IGNORE_SOURCE_FILE_CHANGES OFF -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_ALWAYS_USE_QXP_NETLIST OFF -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_COLOR 16764057 -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_ASSIGNMENTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_EXISTING_ASSIGNMENTS REPLACE_CONFLICTING -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_EXISTING_LOGICLOCK_REGIONS UPDATE_CONFLICTING -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_PIN_ASSIGNMENTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_IMPORT_PROMOTE_ASSIGNMENTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_TYPE STANDARD_PARTITION -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name ALLOW_MULTIPLE_PERSONAS OFF -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_ASD_REGION_ID 1 -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name CROSS_BOUNDARY_OPTIMIZATIONS OFF -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PROPAGATE_CONSTANTS_ON_INPUTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PROPAGATE_INVERSIONS_ON_INPUTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name REMOVE_LOGIC_ON_UNCONNECTED_OUTPUTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name MERGE_EQUIVALENT_INPUTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name MERGE_EQUIVALENT_BIDIRS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name ABSORB_PATHS_FROM_OUTPUTS_TO_INPUTS ON -entity ghrd_top -section_id Top was ignored
+    Warning (20014): Assignment for entity set_global_assignment -name PARTITION_EXTRACT_HARD_BLOCK_NODES ON -entity ghrd_top -section_id Top was ignored
+Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (21077): Low junction temperature is 0 degrees C
+Info (21077): High junction temperature is 85 degrees C
+Critical Warning (332012): Synopsys Design Constraints File file not found: 'Mux8Bit.sdc'. A Synopsys Design Constraints File is required by the TimeQuest Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
+Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
+Info (332096): The command derive_clocks did not find any clocks to derive.  No clocks were created or changed.
+Warning (332068): No clocks defined in design.
+Info: Found TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
+Info (332159): No clocks to report
+Info: Analyzing Slow Model
+Info (332140): No fmax paths to report
+Info (332140): No Setup paths to report
+Info (332140): No Hold paths to report
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332140): No Minimum Pulse Width paths to report
+Info (332001): The selected device family is not supported by the report_metastability command.
+Info: Analyzing Fast Model
+Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
+Info (332096): The command derive_clocks did not find any clocks to derive.  No clocks were created or changed.
+Warning (332068): No clocks defined in design.
+Info (332140): No Setup paths to report
+Info (332140): No Hold paths to report
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332140): No Minimum Pulse Width paths to report
+Info (332001): The selected device family is not supported by the report_metastability command.
+Info (332102): Design is not fully constrained for setup requirements
+Info (332102): Design is not fully constrained for hold requirements
+Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 28 warnings
+    Info: Peak virtual memory: 384 megabytes
+    Info: Processing ended: Thu Apr 28 07:25:55 2016
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:01
+
+
