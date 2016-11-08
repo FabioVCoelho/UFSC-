@@ -1,0 +1,22 @@
+
+
+			Transicoes
+			t1	t2	t3
+Post = Lugares 	P1	0	1	0
+		P2	1	0	1
+		P3	0	1	0
+		P4	0	0	1
+		
+
+
+			Transicoes
+			t1	t2	t3
+Pre = Lugares 	P1	1	0	0
+		P2	0	1	1
+		P3	0	0	1
+		P4	0	1	0
+
+Marcação = 	1
+		0
+		0
+		1
