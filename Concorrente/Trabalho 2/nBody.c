@@ -156,15 +156,21 @@ int main(int argc, char **argv)
         pv[i].fz = fz;
       }
     }
-    /* Aqui tem todas as particulas iniciadas e prontas para serem usadas =P */
-
-
+    /* Aqui tem todas as particulas iniciadas e prontas para serem usadas =P
+     * Ao enviar o &pv, não estou conseguindo pegar as struct para usar
+     * e calcular as forças.
+     */
+    int opcao = 1;
+    for(i = 0; i < size; i++){
+      MPI_Send(&opcao,1,MPI_INT,i,0,MPI_COMM_WORLD);
+      MPI_Send(&pv,1,ParticleV_type,i,0,MPI_COMM_WORLD);
+    }
   while (timesteps--) {
   double max_f;
   /* Compute forces (2D only) */
   int i;
   max_f = 0.0;
-  for (i=0; i<nParticles; i++) {
+  for (i=0; i<nParticles; i++) { //rank
     int j;
     double xi, yi, mi, rx, ry, mj, r, fx, fy, rmin;
     rmin = 100.0;
@@ -172,7 +178,7 @@ int main(int argc, char **argv)
     yi   = particles[i].y;
     fx   = 0.0;
     fy   = 0.0;
-    for (j=0; j<nParticles; j++) {
+    for (j=0; j<nParticles; j++) { //Todos os outros =/
       rx = xi - particles[j].x;
       ry = yi - particles[j].y;
       mj = particles[j].mass;
@@ -229,6 +235,11 @@ int main(int argc, char **argv)
       MPI_Send(&pv[i].fx,1,MPI_DOUBLE,0,0,MPI_COMM_WORLD);
       MPI_Send(&pv[i].fy,1,MPI_DOUBLE,0,0,MPI_COMM_WORLD);
       MPI_Send(&pv[i].fz,1,MPI_DOUBLE,0,0,MPI_COMM_WORLD);
+    }
+    MPI_Recv(&opcao,1,MPI_INT,0,MPI_ANY_TAG,MPI_COMM_WORLD,&st);
+    MPI_Recv(&pv,1,ParticleV_type,0,MPI_ANY_TAG,MPI_COMM_WORLD,&st);
+    if(opcao == 1)  {
+      printf("%f\n", pv.xold);
     }
   }
   MPI_Finalize();
