@@ -5,11 +5,10 @@
 #include <stddef.h>
 #define MODULUS    2147483647
 #define MULTIPLIER 48271
-#define DEFAULT    12345678
+#define DEFAULT    123456789
 
 static long seed = DEFAULT;
 double dt, dt_old;
-int numeroDeParticulasQueFaltam;
 double Random(void)
 /* ----------------------------------------------------------------
  * Random returns a pseudo-random real number uniformly distributed 
@@ -39,18 +38,26 @@ typedef struct {
     double fx, fy, fz;
 } ParticleV;
 
+typedef struct {
+    double fx, fy, max_f;
+} Forces;
+
+typedef struct 
+{
+    Particle particle;
+    ParticleV pv;
+} BothParticles;
+
+Forces ComputeForces(Particle [], int , int);
 ParticleV InitParticleV( Particle, ParticleV );
 Particle InitParticle( Particle, ParticleV, int);
 double ComputeNewPos( Particle [], ParticleV [], int, double);
-Particle ComputeNewPosParticle( Particle , ParticleV , double , double);
-double ComputeNewDt(double);
-ParticleV ComputeNewPosParticleV(ParticleV , double , double );
+BothParticles ComputeNewPosParticle( Particle , ParticleV , double , double);
+void ComputeNewDt(double);
 
 int main(int argc, char **argv) {
 
-    const int tag = 13;
     int size, rank, nParticles, timesteps;
-    double sim_t;
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -65,7 +72,6 @@ int main(int argc, char **argv) {
     timesteps = atoi(argv[2]);
     dt = 0.001; 
     dt_old = 0.001;
-    sim_t = 0.0;
 
     /* create a type for struct car */
     const int nitems=4;
@@ -102,75 +108,127 @@ int main(int argc, char **argv) {
  *  Numero de particulas = nParticle
  *  size > nParticle Pode mandar uma particula para cada processo.   Tag 0
  *  nParticle >= size Enviar uma particula, receber e mandar outro.  Tag 1
- *  Tag 3 é o calculo da força.
+ *  Tag 3 é o calculo da força do caso 1.
+ *  Tag 4 para o caso 2.
  */
-    int numeroDeParticulasQueFaltam = nParticles;
+    int tmpNParticle = nParticles;
     //MASTER
     if (rank == 0) {
         Particle *particle = (Particle *) malloc(sizeof(Particle)*nParticles);
         ParticleV *pv = (ParticleV *) malloc(sizeof(ParticleV)*nParticles);
 
-            // Caso 1
+        // Caso 1 size > nParticles
         if (size > nParticles)  {
             for(int i = 1; i <= nParticles; i++)   {
                 MPI_Recv(&pv[i-1], 1, mpi_particleV_type, i, 0, MPI_COMM_WORLD, &st );
                 MPI_Recv(&particle[i-1], 1, mpi_particleV_type, i, 0, MPI_COMM_WORLD, &st );
             }
-            for (int i = 1; i < nParticles+1; i++)
+            // Envia as particulas para a primeira iteração
+            for (int i = 1; i <= nParticles; i++)
                 MPI_Send(particle,nParticles,mpi_particle_type,i,3,MPI_COMM_WORLD);
+            
             while (timesteps--) {
-                for (int i = 1; i < nParticles+1; i++){
+                for (int i = 1; i <= nParticles; i++){
                     double max_f;
                     MPI_Recv(&pv[i-1], 1, mpi_particleV_type, i, 3, MPI_COMM_WORLD, &st );
                     MPI_Recv(&max_f, 1, MPI_DOUBLE, i, 3, MPI_COMM_WORLD, &st );
-                    particle[i-1] = ComputeNewPosParticle(particle[i-1],pv[i-1],dt,dt_old);
-//                    pv[i-1] = ComputeNewPosParticleV(pv[i-1],xi,yi);
-                    dt_old = ComputeNewDt(max_f);
-                    MPI_Send(particle,nParticles,mpi_particle_type,i,3,MPI_COMM_WORLD);
+                    BothParticles bp;
+                    bp = ComputeNewPosParticle(particle[i-1],pv[i-1],dt,dt_old);
+                    particle[i-1] = bp.particle;
+                    pv[i-1] = bp.pv;
+                    ComputeNewDt(max_f);
                 }
-
+                // Envia as particulas paras as proximas iterações.
+                for(int i = 1; i <= nParticles; i++){
+                    MPI_Send(particle,nParticles,mpi_particle_type,i,3,MPI_COMM_WORLD);
+                    MPI_Send(&pv[i-1],1,mpi_particleV_type,i,3,MPI_COMM_WORLD);
+                }
             }
-      for (int i=0; i<nParticles; i++)
-        fprintf(stdout,"%.5lf %.5lf\n", particle[i].x, particle[i].y);
-
         }
-            // Caso 2
+        // Caso 2 nParticles >= size
         if (nParticles >= size){
             int i = 1;
-            int numeroDeParticulasQueJaForam = 0;
-            while(numeroDeParticulasQueFaltam >= size-1)   {
-                for(i;i < size; i++){
-                    MPI_Send(&numeroDeParticulasQueFaltam, 1, MPI_INT, i, 1, MPI_COMM_WORLD);
-                    MPI_Recv(&pv[numeroDeParticulasQueJaForam], 1, mpi_particleV_type, i, 1, MPI_COMM_WORLD, &st );
-                    MPI_Recv(&particle[numeroDeParticulasQueJaForam], 1, mpi_particleV_type, i, 1, MPI_COMM_WORLD, &st );
-                    numeroDeParticulasQueFaltam--;
-                    numeroDeParticulasQueJaForam++;
+            int computedParticle = 0;
+            while(tmpNParticle >= size-1)   {
+                for(i = 1;i < size; i++){
+                    MPI_Send(&computedParticle, 1, MPI_INT, i, 1, MPI_COMM_WORLD);
+                    MPI_Recv(&pv[computedParticle], 1, mpi_particleV_type, i, 1, MPI_COMM_WORLD, &st );
+                    MPI_Recv(&particle[computedParticle], 1, mpi_particleV_type, i, 1, MPI_COMM_WORLD, &st );
+                    tmpNParticle--;
+                    computedParticle++;
                 }
-                i = 1;
             }
+
             /* Caso o modulo da quantidade de particulas pela quantidade de 
             processos - mestre for 1, signfica que faltou tratar uma particula */
-            if (nParticles % (size-1) == 1) {
-                MPI_Send(&numeroDeParticulasQueFaltam, 1, MPI_INT, 1, 1, MPI_COMM_WORLD);
-                MPI_Recv(&pv[numeroDeParticulasQueJaForam], 1, mpi_particleV_type, 1, 1, MPI_COMM_WORLD, &st );
-                MPI_Recv(&particle[numeroDeParticulasQueJaForam], 1, mpi_particleV_type, 1, 1, MPI_COMM_WORLD, &st );
+            if (nParticles % (size-1) != 0) {
+                int tmpModulo = nParticles % (size-1);
+                while(tmpModulo > 0)    {
+                    MPI_Send(&computedParticle, 1, MPI_INT, 1, 1, MPI_COMM_WORLD);
+                    MPI_Recv(&pv[computedParticle], 1, mpi_particleV_type, 1, 1, MPI_COMM_WORLD, &st );
+                    MPI_Recv(&particle[computedParticle], 1, mpi_particle_type, 1, 1, MPI_COMM_WORLD, &st );
+                    tmpModulo--;
+                    computedParticle++;
+                }
             }
-        }
+            //Todas as particulas teoricamente foram iniciadas...
+            for (int i = 1; i < size; i++)
+                MPI_Send(particle,nParticles,mpi_particle_type,i,4,MPI_COMM_WORLD);
+
+            tmpNParticle = nParticles;
+            computedParticle = 0;
+
+            int tmpTimeSteps = timesteps;
+            while(tmpTimeSteps--){
+                while(tmpNParticle >= size-1)    {
+                    for(int i = 1; i < size; i++)   {
+                        double max_f;
+                        MPI_Send(&computedParticle, 1, MPI_INT, i, 4, MPI_COMM_WORLD);
+                        MPI_Recv(&pv[computedParticle], 1, mpi_particleV_type, i, 4, MPI_COMM_WORLD, &st);
+                        MPI_Recv(&max_f, 1, MPI_DOUBLE, i, 4, MPI_COMM_WORLD, &st);
+                        BothParticles bp;
+                        bp = ComputeNewPosParticle(particle[computedParticle],pv[computedParticle],dt,dt_old);
+                        particle[computedParticle] = bp.particle;
+                        pv[computedParticle] = bp.pv;
+                        ComputeNewDt(max_f);
+                        tmpNParticle--;
+                        computedParticle++;
+                    }
+                }
+            }
+
+            int tmpModulo = nParticles % (size-1);
+            while(tmpModulo > 0)    {
+                for(int i = timesteps; i > 0; i--){
+                    double max_f;
+                    MPI_Send(&computedParticle, 1, MPI_INT, 1, 4, MPI_COMM_WORLD);
+                    MPI_Recv(&max_f, 1, MPI_DOUBLE, 1, 4, MPI_COMM_WORLD, &st);
+                    MPI_Recv(&pv[computedParticle], 1, mpi_particleV_type, 1, 4, MPI_COMM_WORLD, &st);
+                    BothParticles bp;
+                    bp = ComputeNewPosParticle(particle[computedParticle],pv[computedParticle],dt,dt_old);
+                    particle[computedParticle] = bp.particle;
+                    pv[computedParticle] = bp.pv;
+                    ComputeNewDt(max_f);
+                }
+                computedParticle++;
+                tmpModulo--;
+            }
+        }            
+    for (int i=0; i<nParticles; i++)
+        fprintf(stdout,"%.5lf %.5lf\n", particle[i].x, particle[i].y);
     }
     //SLAVE
     else {
         Particle particles;
         ParticleV pv;
+        int computedParticle;
 
         // Caso 2
         if (nParticles >= size){
             int whileXVezes = nParticles / (size-1);
-            numeroDeParticulasQueFaltam - size-1;
-
             while (whileXVezes > 0)  {
-                int numeroDeParticulasQueFaltam;
-                MPI_Recv(&numeroDeParticulasQueFaltam, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &st);
-                particles = InitParticle(particles,pv,numeroDeParticulasQueFaltam);
+                MPI_Recv(&computedParticle, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &st);
+                particles = InitParticle(particles,pv,computedParticle);
                 pv = InitParticleV(particles,pv);
                 MPI_Send( &pv, 1, mpi_particleV_type, 0, 1, MPI_COMM_WORLD );  
                 MPI_Send( &particles, 1, mpi_particle_type, 0, 1, MPI_COMM_WORLD );
@@ -178,15 +236,56 @@ int main(int argc, char **argv) {
             }
             /* Caso o modulo da quantidade de particulas pela quantidade de 
             processos - mestre for 1, signfica que faltou tratar uma particula */
-        if(rank==1 && nParticles % (size-1) == 1)   {
-                int numeroDeParticulasQueFaltam;
-                MPI_Recv(&numeroDeParticulasQueFaltam, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &st);
-                particles = InitParticle(particles,pv,numeroDeParticulasQueFaltam);
-                pv = InitParticleV(particles,pv);
-                MPI_Send( &pv, 1, mpi_particleV_type, 0, 1, MPI_COMM_WORLD );  
-                MPI_Send( &particles, 1, mpi_particle_type, 0, 1, MPI_COMM_WORLD );
+            if(rank==1 && nParticles % (size-1) != 0)   {
+                int tmpModulo = nParticles % (size-1);
+                while(tmpModulo > 0)    {
+                    MPI_Recv(&computedParticle, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &st);
+                    particles = InitParticle(particles,pv,computedParticle);
+                    pv = InitParticleV(particles,pv);
+                    MPI_Send( &pv, 1, mpi_particleV_type, 0, 1, MPI_COMM_WORLD );  
+                    MPI_Send( &particles, 1, mpi_particle_type, 0, 1, MPI_COMM_WORLD );
+                    tmpModulo--;
+                }
             }
-        }
+            /* Calcular as forças */
+            Particle *particleF = (Particle *) malloc(sizeof(Particle)*nParticles);
+            MPI_Recv( particleF, nParticles, mpi_particle_type, 0, 4, MPI_COMM_WORLD, &st);
+
+            Forces force;
+            whileXVezes = nParticles / (size-1);
+            int computedParticle;
+            int tmpTimeSteps = timesteps;   
+            while(tmpTimeSteps--){
+                while (whileXVezes > 0)  {
+                    MPI_Recv(&computedParticle, 1, MPI_INT, 0, 4, MPI_COMM_WORLD, &st);
+                    force = ComputeForces(particleF,computedParticle,nParticles);
+                    double max_f;
+                    pv.fx += force.fx;
+                    pv.fy += force.fy;
+                    max_f = force.max_f;
+                    MPI_Send( &pv, 1, mpi_particleV_type, 0, 4, MPI_COMM_WORLD );  
+                    MPI_Send( &max_f,1,MPI_DOUBLE,0,4,MPI_COMM_WORLD);
+                    whileXVezes--;
+                }
+            }
+
+            if(rank==1 && nParticles % (size-1) != 0)   {
+                int tmpModulo = nParticles % (size-1);
+                while(tmpModulo > 0)    {
+                    for(int i = timesteps; i > 0; i--){
+                        MPI_Recv(&computedParticle, 1, MPI_INT, 0, 4, MPI_COMM_WORLD, &st);
+                        force = ComputeForces(particleF,computedParticle,nParticles);
+                        double max_f;
+                        pv.fx += force.fx;
+                        pv.fy += force.fy;
+                        max_f = force.max_f;
+                        MPI_Send( &max_f, 1, MPI_DOUBLE, 0, 4, MPI_COMM_WORLD );  
+                        MPI_Send( &pv, 1 , mpi_particleV_type, 0, 4, MPI_COMM_WORLD);
+                    }
+                tmpModulo--; 
+                }
+            }
+      }
 
         // Caso 1
         if (size > nParticles && rank <= nParticles)  {
@@ -195,80 +294,21 @@ int main(int argc, char **argv) {
             MPI_Send( &pv, 1, mpi_particleV_type, 0, 0, MPI_COMM_WORLD );  
             MPI_Send( &particles, 1, mpi_particle_type, 0, 0, MPI_COMM_WORLD );
             Particle *particleF = (Particle *) malloc(sizeof(Particle)*nParticles);
-            ParticleV *pvF = (ParticleV *) malloc(sizeof(ParticleV)*nParticles);
+            MPI_Recv( particleF, nParticles, mpi_particle_type, 0, 3, MPI_COMM_WORLD, &st);
 
             /* CALCULAR A FORÇA! */
-
+            Forces force;
             while (timesteps--) {
+                    force = ComputeForces(particleF,rank,nParticles);
                     double max_f;
-                    int i;
-                    max_f = 0.0;
-                    int j;
-                    double xi, yi, mi, rx, ry, mj, r, fx, fy, rmin;
-                    rmin = 100.0;
-                    xi   = particleF[rank-1].x;
-                    yi   = particleF[rank-1].y;
-                    fx   = 0.0;
-                    fy   = 0.0;
-                    for (j=0; j<nParticles; j++) {
-                        rx = xi - particleF[j].x;
-                        ry = yi - particleF[j].y;
-                        mj = particleF[j].mass;
-                        r  = rx * rx + ry * ry;
-                        /* ignore overlap and same particle */ 
-                        if (r == 0.0) continue;
-                        if (r < rmin) rmin = r;
-                        r  = r * sqrt(r);
-                        fx -= mj * rx / r;
-                        fy -= mj * ry / r;
-                    }
-                    //Isso tem que enviar para o master pq vai importar no proximo calculo.
-                    pv.fx += fx;
-                    pv.fy += fy;
+                    pv.fx += force.fx;
+                    pv.fy += force.fy;
+                    max_f = force.max_f;
                     MPI_Send( &pv, 1, mpi_particleV_type, 0, 3, MPI_COMM_WORLD );  
-                    fx = sqrt(fx*fx + fy*fy)/rmin;
-                    if (fx > max_f) max_f = fx;
-                    MPI_Send(&max_f,1,MPI_DOUBLE,0,3,MPI_COMM_WORLD);
+                    MPI_Send( &max_f,1,MPI_DOUBLE,0,3,MPI_COMM_WORLD);
                     MPI_Recv( particleF, nParticles, mpi_particle_type, 0, 3, MPI_COMM_WORLD, &st);
-                    //Cada particula tem seu max_f...
-
-                    /* CALCULAR A NOVA POSIÇÂO! */
-/*
-                    MPI_Recv(&dt,);
-                    MPI_Recv(&dt_old,);
-
-                    double a0, a1, a2;
-                    a0     = 2.0 / (dt * (dt + dt_old));
-                    a2     = 2.0 / (dt_old * (dt + dt_old));
-                    a1     = -(a0 + a2);
-                    xi             = particleF[rank-1].x;
-                    yi             = particleF[rank-1].y;
-                    particleF[rank-1].x = (pv.fx - a1 * xi - a2 * pv.xold) / a0;
-                    particleF[rank-1].y = (pv.fy - a1 * yi - a2 * pv.yold) / a0;
-                    pv.xold     = xi;
-                    pv.yold     = yi;
-                    pv.fx       = 0;
-                    pv.fy       = 0;
-
-                    double dt_new;
-                    dt_new = 1.0/sqrt(max_f);
-                    /* Set a minimum: */
-/*                    if (dt_new < 1.0e-6) dt_new = 1.0e-6;
-                    /* Modify time step
-                       DT e DT_OLD são globais, não dá para tratar em cada particula
-                       mandar para mestre que ele resolve */
-/*                    if (dt_new < dt) {
-                        dt_old = dt;
-                        dt     = dt_new;
-                    }
-                    else if (dt_new > 4.0 * dt) {
-                        dt_old = dt;
-                        dt    *= 2.0;
-                    }
-
-                    MPI_Send(&dt,);
-                    MPI_Send(&dt_old),;
-*/                }
+                    MPI_Recv( &pv, 1, mpi_particleV_type, 0, 3, MPI_COMM_WORLD, &st);
+                }
     }
 }
     MPI_Type_free(&mpi_particle_type);
@@ -298,30 +338,26 @@ Particle InitParticle( Particle particles, ParticleV pv, int valor)
             return particles;
 }
 
-Particle ComputeNewPosParticle( Particle particles, ParticleV pv, double dt, double dt_old)
+BothParticles ComputeNewPosParticle( Particle particle, ParticleV pv, double dt, double dt_old)
 {
+  BothParticles bp;
   double a0, a1, a2;
   double xi, yi;
   a0     = 2.0 / (dt * (dt + dt_old));
   a2     = 2.0 / (dt_old * (dt + dt_old));
   a1     = -(a0 + a2);
-  xi             = particles.x;
-  yi             = particles.y;
-  particles.x = (pv.fx - a1 * xi - a2 * pv.xold) / a0;
-  particles.y = (pv.fy - a1 * yi - a2 * pv.yold) / a0;
- return particles;
+  xi             = particle.x;
+  yi             = particle.y;
+  bp.particle.x = (pv.fx - a1 * xi - a2 * pv.xold) / a0;
+  bp.particle.y = (pv.fy - a1 * yi - a2 * pv.yold) / a0;
+  bp.pv.xold     = xi;
+  bp.pv.yold     = yi;
+  bp.pv.fx       = 0;
+  bp.pv.fy       = 0;
+ return bp;
 }
 
-ParticleV ComputeNewPosParticleV(ParticleV pv, double xi, double yi)
-{
-  pv.xold     = xi;
-  pv.yold     = yi;
-  pv.fx       = 0;
-  pv.fy       = 0;
-  return pv;
-}
-
-double ComputeNewDt(double max_f)
+void ComputeNewDt(double max_f)
 {
   double dt_new;
   dt_new = 1.0/sqrt(max_f);
@@ -336,5 +372,35 @@ double ComputeNewDt(double max_f)
     dt_old = dt;
     dt    *= 2.0;
   }
-  return dt_old;
+}
+
+Forces ComputeForces(Particle particle[], int rank, int nParticles)
+{
+    Forces force;
+    int i,j;
+    double xi, yi, mi, rx, ry, mj, r, fx, fy, rmin, max_f;
+    max_f = 0.0;
+    rmin = 100.0;
+    xi   = particle[rank-1].x;
+    yi   = particle[rank-1].y;
+    fx   = 0.0;
+    fy   = 0.0;
+    for (j=0; j<nParticles; j++) {
+        rx = xi - particle[j].x;
+        ry = yi - particle[j].y;
+        mj = particle[j].mass;
+        r  = rx * rx + ry * ry;
+        /* ignore overlap and same particle */ 
+        if (r == 0.0) continue;
+        if (r < rmin) rmin = r;
+        r  = r * sqrt(r);
+        fx -= mj * rx / r;
+        fy -= mj * ry / r;
+    }
+    force.fx = fx;
+    force.fy = fy;
+    fx = sqrt(fx*fx + fy*fy)/rmin;
+    if (fx > max_f) max_f = fx;
+    force.max_f = max_f;
+    return force;
 }
