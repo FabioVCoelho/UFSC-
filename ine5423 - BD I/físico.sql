@@ -52,7 +52,8 @@ CREATE TABLE Estabelecimento(
 CREATE TABLE Solicitante(
     CPFouCNPJ varchar(14) PRIMARY KEY,
     nomeSolicitante varchar(70),
-    numeroConselho varchar(15) REFERENCES Conselho
+    numeroConselho varchar(15) REFERENCES Conselho,
+    numeroNoConselho varchar(15)
 );
 
 CREATE TABLE Procedimento(
@@ -116,22 +117,27 @@ CREATE TABLE Prorrogação(
 
 CREATE TABLE Hipótese(
     CID10 varchar(5) PRIMARY KEY, 
-    id int REFERENCES Solicitação
+    descrição varchar(100)
+
 );
 
 CREATE TABLE TipoDoença(
     código varchar(1) PRIMARY KEY, 
-    id int REFERENCES Solicitação
+    id int REFERENCES Solicitação,
+    descrição varchar(100)
 );
 
 CREATE TABLE TempoDoença(
     código varchar(1) PRIMARY KEY, 
-    id int REFERENCES Solicitação
+    id int REFERENCES Solicitação,
+    descrição varchar(100)
+
 );
 
 CREATE TABLE IndicadorAcidente(
     código smallint PRIMARY KEY, 
-    id int REFERENCES Solicitação
+    id int REFERENCES Solicitação,
+    descrição varchar(100)
 );
 
 CREATE TABLE TabelaDomínio(
@@ -158,15 +164,18 @@ CREATE TABLE SolicitaçãoTempoDoença(
 );
 
 CREATE TABLE SolicitaçãoOPM(
+    código varchar(10) REFERENCES OPM PRIMARY KEY,
     cod serial, 
-    id int REFERENCES Solicitação, 
-    código varchar(10) REFERENCES OPM PRIMARY KEY
+    id int REFERENCES Solicitação,
+    quantidade int
 );
 
 CREATE TABLE SolicitaçãoProcedimento(
     cod serial PRIMARY KEY,
     id int REFERENCES Solicitação, 
-    código varchar(10) REFERENCES Procedimento
+    código varchar(10) REFERENCES Procedimento,
+    qtdAutorizada int,
+    qtdSolicitada int
 );
 
 CREATE TABLE SolicitaçãoProrrogação(
@@ -202,11 +211,24 @@ CREATE TABLE ProcedimentoTabelaDomínio(
 CREATE TABLE ProcedimentoProrrogação(
     cod serial PRIMARY KEY,
     códigoProc varchar(10) REFERENCES Procedimento,
-    códigoProrrog int REFERENCES Prorrogação
+    códigoProrrog int REFERENCES Prorrogação,
+    qtdAutorizada int,
+    qtdSolicitada int
+
 );
 
 CREATE TABLE OPMProrrogação(
     cod serial PRIMARY KEY,
     códigoOPM varchar(10) REFERENCES OPM,
-    códigoProrrog int REFERENCES Prorrogação
+    códigoProrrog int REFERENCES Prorrogação,
+    quantidade int
 );
+
+CREATE TABLE HipóteseSolicitação(
+    cod serial PRIMARY KEY,
+    CID10 varchar(5) REFERENCES Hipótese,
+    id int REFERENCES Solicitação,
+    rank int
+);
+    
+
